@@ -1,0 +1,13 @@
+import React, { useState } from "react";
+import styles from './index.module.less';
+
+
+const {{ properCase name }}: React.FC = () => {
+  const [state, setState] = useState<number>(0);
+
+  return (
+    <div className={ styles.{{ camelCase name }} }>公共组件</div>
+  )
+}
+
+export default {{ properCase name }};

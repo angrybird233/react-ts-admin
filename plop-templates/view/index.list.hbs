@@ -1,0 +1,13 @@
+import React, { useState } from "react";
+import styles from './{{ ename }}.module.less';
+
+
+const {{ properCase ename }}List: React.FC = () => {
+  const [state, setState] = useState<number>(0);
+
+  return (
+    <div className={ styles.{{ ename }} }>{{ cname }}列表页面</div>
+  )
+}
+
+export default {{ properCase ename }}List;
