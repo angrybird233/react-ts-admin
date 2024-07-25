@@ -8,11 +8,10 @@ function App() {
   return (
     <ConfigProvider
       theme={{
-        // token: {
-        //   colorPrimary: '#00b96b', // Seed Token，影响范围大
-        //   borderRadius: 2,
-        //   colorBgContainer: '#f6ffed',  // 派生变量，影响范围小
-        // },
+        token: {
+          // colorPrimary: '#101e52', // Seed Token，影响范围大
+
+        },
       }}
     >
       <React.StrictMode>

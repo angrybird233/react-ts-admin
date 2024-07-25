@@ -5,7 +5,7 @@ const getLoginStatus = () => {
   return true
 }
 
-export const RouterAuth: React.FC = () => {
+export const AuthRouter: React.FC = () => {
   const isLogin  = getLoginStatus()
   const location = useLocation()
   // 匹配当前层级路由树
