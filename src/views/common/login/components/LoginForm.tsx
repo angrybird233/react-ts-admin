@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Button, Form, Input, Flex, message   } from 'antd';
 import { createStyles } from 'antd-style';
 import type { FormProps  } from 'antd';
@@ -36,17 +36,44 @@ type FieldType = {
 const LoginForm: React.FC<LoginFormProps> = ({toRegister}) => {
   const { styles } = useStyles();
   const navigate = useNavigate()
+  const [messageApi, contextHolder] = message.useMessage();
+  const [isLogin, setIsLogin] = useState(false)
+  const key = 'updatable';
+  useEffect(()=> {
+    if(isLogin){
+      navigate("/myapp/databoard");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLogin])
+  const openMessage = () => {
+    messageApi.open({
+      type: 'loading',
+      content: '登录中',
+      duration: 1,
+    });
+    
+  };
   const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-    console.log('values:', values);
-    message.success('登录成功', 1000, ()=> {
-      useEffect(()=> {
-        navigate("/myapp/databoard");
-      }, [])
-    })
+    console.log('values', values);
+    
+    openMessage();
+    setTimeout(() => {
+      messageApi.open({
+        key,
+        type: 'success',
+        content: '登录成功',
+        duration: 0.5,
+        onClose: () => {
+          setIsLogin(true)
+        }
+      });
+    }, 1000);
+    
   }
 
   return (
     <div className='loginForm'>
+      {contextHolder}
       <div className={styles.title}>xxxx管理系统</div>
       <Form
         name="loginForm"
@@ -70,7 +97,7 @@ const LoginForm: React.FC<LoginFormProps> = ({toRegister}) => {
         <Form.Item<FieldType>
           label="密  码"
           name="password"
-          initialValue='123456'
+          initialValue='654321'
           rules={[{ required: true, message: '请输入密码' }]}
         >
           <Input.Password />

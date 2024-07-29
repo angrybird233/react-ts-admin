@@ -8,9 +8,13 @@ function App() {
   return (
     <ConfigProvider
       theme={{
+        components: {
+          Menu: {
+            /* 这里是你的组件 token */
+          },
+        },
         token: {
           // colorPrimary: '#101e52', // Seed Token，影响范围大
-
         },
       }}
     >

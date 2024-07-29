@@ -1,10 +1,12 @@
 import { Outlet } from "react-router-dom";
-
+import LayoutWrap from '@/layout/LayoutWrap'
 
 const Myapp: React.FC = () => {
   
   return (
-    <Outlet />
+    <LayoutWrap>
+      <Outlet />
+    </LayoutWrap>
   )
 }
 export default Myapp;

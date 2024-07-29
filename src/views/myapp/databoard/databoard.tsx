@@ -11,7 +11,7 @@ const Databoard: React.FC = () => {
 
   return (
     <div className="">
-      <button onClick={add}>count is : {count}</button>
+      <button onClick={add}>数据看板：{count}</button>
     </div>
     
   )

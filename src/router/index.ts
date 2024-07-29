@@ -1,5 +1,4 @@
 import { createBrowserRouter  } from 'react-router-dom';
-// import myappRoutes from './myapp'
 import commonRoutes from './common'
 import authorizatedRoutes from './router-guard';
 

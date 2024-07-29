@@ -64,4 +64,5 @@ const setRedirectRoute = (routes: RouteObject[]) => {
 let myappRoutes = buildTree(routeConfigList);
 myappRoutes = setRedirectRoute(myappRoutes);
 
+
 export default myappRoutes

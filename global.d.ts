@@ -7,7 +7,7 @@ declare interface MetaProps {
   key?: string;
   filePath?: string;
   requiresAuth?: boolean;
-  menuIcon?: string;
+  menuIcon?: string | React.ReactElement;
   keepAlive?: boolean;
   isShowMenu?: boolean;
 }

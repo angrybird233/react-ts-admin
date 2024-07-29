@@ -33,7 +33,7 @@ if(backEndRoutes.length){
 }
 const authorizatedRoutes: RouteObject[] = [
   {
-    path: '/myapp',
+    ...myappRoutes[0],
     children: myappChildren
   }
 ]
