@@ -1,6 +1,5 @@
 import { RouterProvider } from 'react-router-dom'
 import React from 'react';
-import './App.css'
 import router from '@/router/index'
 import { ConfigProvider } from 'antd';
 

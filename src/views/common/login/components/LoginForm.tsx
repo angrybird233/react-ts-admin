@@ -74,7 +74,7 @@ const LoginForm: React.FC<LoginFormProps> = ({toRegister}) => {
   return (
     <div className='loginForm'>
       {contextHolder}
-      <div className={styles.title}>xxxx管理系统</div>
+      <div className={styles.title}>智慧农业管理系统</div>
       <Form
         name="loginForm"
         labelCol={{ span: 4 }}

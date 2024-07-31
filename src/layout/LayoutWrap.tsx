@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import AsiderBar from './components/AsiderBar'
 import HeaderBar from './components/HeaderBar'
 import {theme, Layout } from 'antd'
@@ -14,11 +14,17 @@ const LayoutWrap: React.FC<LayoutProps> = ({ children }) => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  const [collapsed, setCollapsed] = useState(false);
+
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
+
   return (
-    <Layout >
-      <AsiderBar />
+    <Layout style={{ height: '100vh' }}>
+      <AsiderBar collapsed={collapsed} />
       <Layout>
-        <HeaderBar />
+        <HeaderBar collapsed={collapsed} toggleCollapsed={toggleCollapsed} />
         <Content
           style={{
             margin: '20px 14px',

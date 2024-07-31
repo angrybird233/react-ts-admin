@@ -1,2 +1,7 @@
 @import 'reset-css';
-@import './theme.css'
+@import './theme.css';
+
+body {
+  padding: 0;
+  margin: 0;
+}

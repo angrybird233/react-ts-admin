@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {Button, Layout } from 'antd'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { createStyles} from 'antd-style'
@@ -25,9 +25,9 @@ const useStyles = createStyles(({token ,css})=> {
   }
 })
 
-const HeaderBar: React.FC = () => {
+const HeaderBar: React.FC = ({ collapsed, toggleCollapsed }) => {
   
-  const [ collapsed, setCollapsed ] = useState(false);
+  // const [ collapsed, setCollapsed ] = useState(false);
   const {styles} = useStyles();
 
   return (

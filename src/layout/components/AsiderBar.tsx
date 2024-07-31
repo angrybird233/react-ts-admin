@@ -44,7 +44,7 @@ const convertRouteObjectsToMenuItems = (routes: RouteObject[]): MenuItem[] => {
 
 
 
-const useStyles = createStyles(({ css})=> {
+const useStyles = createStyles(({css})=> {
   return {
     logoVertical: css`
       width: 180px;
@@ -63,7 +63,7 @@ const useStyles = createStyles(({ css})=> {
   }
 })
 
-const AsiderBar: React.FC = () => {
+const AsiderBar: React.FC = ({collapsed}) => {
   const {styles } = useStyles()
   const { children } = authorizatedRoutes[0]
   const menus = getRouteMenus(children || [])
@@ -79,6 +79,7 @@ const AsiderBar: React.FC = () => {
         defaultOpenKeys={['sub1']}
         mode="inline"
         theme="dark"
+        collapsed={collapsed}
         items={menuItems}
       />
     </Sider>
