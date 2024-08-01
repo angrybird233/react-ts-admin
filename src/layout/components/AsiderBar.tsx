@@ -1,4 +1,5 @@
 import React from 'react'
+import {useNavigate } from 'react-router-dom'
 import {createStyles} from 'antd-style' 
 import authorizatedRoutes from '@/router/router-guard'
 import type { MenuProps } from 'antd';
@@ -31,12 +32,22 @@ const getRouteMenus = (routes: RouteObject[]) => {
  */
 const convertRouteObjectsToMenuItems = (routes: RouteObject[]): MenuItem[] => {
   return routes
-    .map(route => ({
-      key: route.path!,
-      label: route.meta!.title,
-      icon: route.meta?.menuIcon,
-      children: route.children ? convertRouteObjectsToMenuItems(route.children) : []
-    }));
+    .map(route => {
+      if(route.children && route.children.length){
+        return {
+          key: route.path!,
+          label: route.meta!.title,
+          icon: route.meta?.menuIcon,
+          children: convertRouteObjectsToMenuItems(route.children) 
+        }
+      }else{
+        return {
+          key: route.path!,
+          label: route.meta!.title,
+          icon: route.meta?.menuIcon
+        }
+      }
+    });
 }
 
 
@@ -47,7 +58,7 @@ const convertRouteObjectsToMenuItems = (routes: RouteObject[]): MenuItem[] => {
 const useStyles = createStyles(({css})=> {
   return {
     logoVertical: css`
-      width: 180px;
+      width: 100%;
       height: 60px;
       text-align: center;
       line-height: 60px;
@@ -63,24 +74,34 @@ const useStyles = createStyles(({css})=> {
   }
 })
 
-const AsiderBar: React.FC = ({collapsed}) => {
+interface AsiderBarProps {
+  collapsed: boolean
+}
+
+const AsiderBar: React.FC<AsiderBarProps> = ({collapsed}) => {
   const {styles } = useStyles()
+  const navigate = useNavigate()
   const { children } = authorizatedRoutes[0]
   const menus = getRouteMenus(children || [])
   const menuItems = convertRouteObjectsToMenuItems(menus)
+  const defaultSelectedKeys = [menuItems[0]?.key as string]
+
+  const clickMenuItem = (e: { key: string }) => {
+    navigate(e.key)
+  }
 
 
   return (
-    <Sider>
-      <div className={styles.logoVertical}>React Admin</div>
+    <Sider  collapsed={collapsed}>
+      <div className={styles.logoVertical}>{collapsed ? 'A':'React Admin'}</div>
       <Menu
         className={styles.menu}
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
+        defaultSelectedKeys={defaultSelectedKeys}
         mode="inline"
         theme="dark"
-        collapsed={collapsed}
         items={menuItems}
+        // inlineCollapsed={collapsed}
+        onClick={clickMenuItem}
       />
     </Sider>
   )

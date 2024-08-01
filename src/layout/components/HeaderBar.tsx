@@ -25,9 +25,13 @@ const useStyles = createStyles(({token ,css})=> {
   }
 })
 
-const HeaderBar: React.FC = ({ collapsed, toggleCollapsed }) => {
+interface HeaderBarProps {
+  collapsed: boolean
+  toggleCollapsed: () => void
+}
+
+const HeaderBar: React.FC<HeaderBarProps> = ({ collapsed, toggleCollapsed }) => {
   
-  // const [ collapsed, setCollapsed ] = useState(false);
   const {styles} = useStyles();
 
   return (
@@ -35,7 +39,7 @@ const HeaderBar: React.FC = ({ collapsed, toggleCollapsed }) => {
       <Button
         type="text" 
         className={styles.toggleBtn} 
-        onClick={() => setCollapsed(!collapsed)}>{collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        onClick={toggleCollapsed}>{collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
       </Button>
     </Header>
   )
