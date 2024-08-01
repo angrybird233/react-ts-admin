@@ -1,5 +1,5 @@
 import React from 'react'
-import {useNavigate } from 'react-router-dom'
+import {useNavigate, useLocation  } from 'react-router-dom'
 import {createStyles} from 'antd-style' 
 import authorizatedRoutes from '@/router/router-guard'
 import type { MenuProps } from 'antd';
@@ -38,7 +38,7 @@ const convertRouteObjectsToMenuItems = (routes: RouteObject[]): MenuItem[] => {
           key: route.path!,
           label: route.meta!.title,
           icon: route.meta?.menuIcon,
-          children: convertRouteObjectsToMenuItems(route.children) 
+          children: convertRouteObjectsToMenuItems(route.children) || [] 
         }
       }else{
         return {
@@ -81,15 +81,37 @@ interface AsiderBarProps {
 const AsiderBar: React.FC<AsiderBarProps> = ({collapsed}) => {
   const {styles } = useStyles()
   const navigate = useNavigate()
+  const location = useLocation()
+  const path = location.pathname
   const { children } = authorizatedRoutes[0]
   const menus = getRouteMenus(children || [])
   const menuItems = convertRouteObjectsToMenuItems(menus)
-  const defaultSelectedKeys = [menuItems[0]?.key as string]
+  const defaultOpenKeys: string[] = [];
+  const defaultSelectedKeys :string[] = [];
+
 
   const clickMenuItem = (e: { key: string }) => {
     navigate(e.key)
   }
+  
+  const findDefaultKeys = (path: string, menuItems: MenuItem[]) => {
+    menuItems.forEach((item: MenuItem) => {
+      if (item && item.key === path) {
+        defaultSelectedKeys.push(item.key);
+      }
+      if(item && path.indexOf(item.key as string) > -1) {
+        defaultOpenKeys.push(item.key as string);
+      }
+      // 如果当前菜单项有子菜单，递归查找子菜单
+      if (item && ('children' in item) && Array.isArray(item.children) &&item.children.length) {
+        findDefaultKeys(path, item.children);
+      }
+    });
+  }
 
+  findDefaultKeys(path, menuItems)
+  
+  
 
   return (
     <Sider  collapsed={collapsed}>
@@ -97,10 +119,10 @@ const AsiderBar: React.FC<AsiderBarProps> = ({collapsed}) => {
       <Menu
         className={styles.menu}
         defaultSelectedKeys={defaultSelectedKeys}
+        defaultOpenKeys={defaultOpenKeys}
         mode="inline"
         theme="dark"
         items={menuItems}
-        // inlineCollapsed={collapsed}
         onClick={clickMenuItem}
       />
     </Sider>

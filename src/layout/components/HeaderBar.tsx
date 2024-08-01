@@ -21,7 +21,7 @@ const useStyles = createStyles(({token ,css})=> {
       font-size: 22px;
       cursor: pointer;
       font-weight: bold;
-  }`
+    `
   }
 })
 
@@ -41,6 +41,9 @@ const HeaderBar: React.FC<HeaderBarProps> = ({ collapsed, toggleCollapsed }) => 
         className={styles.toggleBtn} 
         onClick={toggleCollapsed}>{collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
       </Button>
+      <div className="rightButtons">
+        
+      </div>
     </Header>
   )
 }
