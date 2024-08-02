@@ -13,6 +13,7 @@ function App() {
           },
         },
         token: {
+          borderRadiusLG: 4
           // colorPrimary: '#101e52', // Seed Token，影响范围大
         },
       }}

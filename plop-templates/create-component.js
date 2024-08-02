@@ -7,13 +7,13 @@ export default {
     {
       type: "input",
       name: "name",
-      message: "请输入组件名称(大驼峰),例如：components/xxx",
+      message: "请输入组件名称(大驼峰),例如：MyComponent",
       validate: notEmpty("name")
     },
     {
       type: "input",
       name: "path",
-      message: "Please enter the directory path",
+      message: "请输入组件路径, 例如：components/MyComponent",
       validate: notEmpty("name")
     },
   ],
