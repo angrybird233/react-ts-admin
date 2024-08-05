@@ -1,13 +1,20 @@
 import React from "react";
-import { Breadcrumb } from "antd";
-import { useLocation } from "react-router-dom";
+import { Breadcrumb,  } from "antd";
+import { useLocation, Link } from "react-router-dom";
+import type {BreadcrumbItemProps} from 'antd'
 import authorizatedRoutes from '@/router/router-guard';
 
-interface crubItem {
-  path?: string;
-  title?: string;
-  children?: crubItem[];
-}
+type BreadcrumbSeparatorType = { type: 'separator'; separator?: React.ReactNode; };
+type BreadcrumbItemType =  { 
+  key?: React.Key; 
+  href?: string; 
+  path?: string; 
+  title?: React.ReactNode; 
+  breadcrumbName?: string; 
+  menu?: BreadcrumbItemProps['menu']; 
+  onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLSpanElement>; 
+  children?: Omit<BreadcrumbItemType, 'children'>[]; };
+type crubItem = Partial<BreadcrumbItemType & BreadcrumbSeparatorType>;
 
 
 /**
@@ -33,10 +40,8 @@ const convertRouteObjectsToCrumbItems = (routes: RouteObject[]): crubItem[] => {
       item.children = convertRouteObjectsToCrumbItems(item.children)
     }
     return {
-      path: item.path,
-      title: item.meta?.title,
-      children: item.children,
-      element: item.element
+      title: item.meta?.title || "",
+      ...item
     }
   })
 }
@@ -47,15 +52,25 @@ const matchRoutes = (pathname: string, routes: crubItem[], crumbItems: crubItem[
   routes.forEach((item: crubItem) => {
     flatRoutes.push(item)
     if (item.children && item.children.length) {
-      
-      // matchRoutes(pathname, item.children, crumbItems)
+      matchRoutes(pathname, item.children, crumbItems)
     }
     if (pathname.indexOf(item.path as string) > -1) {
-      crumbItems.push(item)
+      crumbItems.unshift(item)
     }
     
   })
   return crumbItems
+}
+
+const itemRender = ( currentRoute: crubItem, _params: unknown, items: crubItem[], paths: string[] ): React.ReactNode => {
+  const isLast = currentRoute?.path === items[items.length - 1]?.path;
+  return isLast ? (
+    <span>{currentRoute.title}</span>
+  ) : (
+    <Link to={`/${paths.join("/")}`}>{currentRoute.title}</Link>
+  );
+  
+
 }
 
 
@@ -64,20 +79,12 @@ const HeaderBreadcrumb: React.FC = () => {
   const { pathname } = useLocation()
   const { children } = authorizatedRoutes[0]
   const routes = fiterRouteItems(children || []);
-  // console.log('routes', routes);
   
   const crumbRoutes = convertRouteObjectsToCrumbItems(routes);
-  console.log('crumbRoutes',crumbRoutes);
-  
   const breadcrumbItems = matchRoutes(pathname, crumbRoutes, [])
-  console.log("breadcrumbItems", breadcrumbItems);
 
   return (
-    <Breadcrumb items={[]} >
-      {/* {breadcrumbItems.map((item: crubItem) => (
-        <Breadcrumb.Item key={item.path}>{item.title}</Breadcrumb.Item>
-      ))} */}
-    </Breadcrumb>
+    <Breadcrumb items={breadcrumbItems} itemRender={itemRender} />
   )
 }
 
